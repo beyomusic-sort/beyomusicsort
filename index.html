@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>BEYOOOOONDS楽曲ソート</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+        background: #f4f4f8;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .app {
+        width: 100%;
+        max-width: 900px;
+        padding: 24px 14px 40px;
+        margin-top: 40px;
+        box-sizing: border-box;
+    }
+
+    .card {
+        background: white;
+        padding: 30px 22px;
+        border-radius: 16px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        margin-bottom: 35px;
+    }
+
+    h1, h2 {
+        text-align: center;
+        font-weight: 600;
+        line-height: 1.3;
+    }
+
+    p {
+        line-height: 1.6;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+        margin-top: 12px;
+        border-radius: 12px;
+        background: white;
+        border: 2px solid #1e90ff;
+        color: #1e90ff;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.15s;
+    }
+
+    button:hover {
+        background: #1e90ff;
+        color: white;
+    }
+
+    .neutral {
+        border-color: #aaa;
+        color: #444;
+    }
+
+    .neutral:hover {
+        background: #ddd;
+        color: black;
+    }
+
+    .back {
+        border-color: #777;
+        color: #333;
+    }
+
+    .back:hover {
+        background: #ccc;
+        color: black;
+    }
+
+    .progress {
+        margin-top: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .bar {
+        width: 100%;
+        height: 6px;
+        background: #ddd;
+        border-radius: 10px;
+        margin-top: 6px;
+    }
+
+    .bar-fill {
+        height: 6px;
+        background: #1e90ff;
+        width: 0%;
+        border-radius: 10px;
+    }
+
+    footer {
+        text-align: center;
+        font-size: 14px;
+        padding: 20px;
+        color: #555;
+    }
+
+    a {
+        color: #1e90ff;
+        font-weight: bold;
+        text-decoration: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+    <!-- トップページ -->
+    <div id="start" class="card">
+        <h1>BEYOOOOONDS楽曲ソート</h1>
+        <p>モードを選択してください。</p>
+
+        <button onclick="startSort(false)">BEYOOOOONDS楽曲ソート</button>
+        <button onclick="startSort(true)">BEYOOOOONDS楽曲ソート（演劇女子部含む）</button>
+
+        <p style="font-size:13px; margin-top:15px;">
+        音源リリース済みでメンバーが歌唱した楽曲のみ。<br>
+        アルバム収録の寸劇・歌唱無しのトラックなどは入っておりません。
+        </p>
+
+        <p style="margin-top:20px;">
+            🔗<a href="https://x.com/beyomusicsort" target="_blank">製作者（表記する文字）</a>
+        </p>
+    </div>
+
+    <!-- ソート画面 -->
+    <div id="sort" class="card" style="display:none;">
+        <div class="progress" id="progressText">0% 完了</div>
+        <div class="bar"><div class="bar-fill" id="progressBar"></div></div>
+
+        <h2 id="song1">-</h2>
+        <p id="album1" style="font-size:14px;"></p>
+
+        <h2 id="song2" style="margin-top:25px;">-</h2>
+        <p id="album2" style="font-size:14px;"></p>
+
+        <button onclick="choose(1)">選ぶ</button>
+        <button onclick="choose(2)">選ぶ</button>
+        <button class="neutral" onclick="choose(0)">選べない / 曲を知らない</button>
+        <button class="back" onclick="goBack()">⬅ ひとつ戻る</button>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="result" class="card" style="display:none;">
+        <h2>結果</h2>
+        <ol id="resultList"></ol>
+
+        <button onclick="location.reload()">トップページに戻る</button>
+    </div>
+</div>
+
+<footer>
+    beoyomusic-sort.github.io
+</footer>
+
+<script>
+let songs = [
+    ["恋愛奉行","1stアルバム"],
+    ["最KOO DE DANCE","コラボレーションシングル"],
+    ["フックの法則","5thシングル"]
+];
+
+let history = [];
+let index = 0;
+let includeYG = false;
+
+function startSort(includeYGOption){
+    includeYG = includeYGOption;
+    document.getElementById("start").style.display="none";
+    document.getElementById("sort").style.display="block";
+    showPair();
+}
+
+function showPair(){
+    if(index >= songs.length -1){
+        finish();
+        return;
+    }
+    updateProgress();
+    document.getElementById("song1").textContent = songs[index][0];
+    document.getElementById("album1").textContent = songs[index][1];
+    document.getElementById("song2").textContent = songs[index+1][0];
+    document.getElementById("album2").textContent = songs[index+1][1];
+}
+
+function choose(option){
+    history.push(index);
+    if(option === 2){
+        [songs[index], songs[index+1]] = [songs[index+1], songs[index]];
+    }
+    index++;
+    showPair();
+}
+
+function goBack(){
+    if(history.length === 0) return;
+    index = history.pop();
+    showPair();
+}
+
+function updateProgress(){
+    let percent = Math.floor((index / (songs.length -1)) * 100);
+    document.getElementById("progressText").textContent = percent + "% 完了";
+    document.getElementById("progressBar").style.width = percent + "%";
+}
+
+function finish(){
+    document.getElementById("sort").style.display="none";
+    document.getElementById("result").style.display="block";
+    let list = document.getElementById("resultList");
+    songs.forEach((s,i)=>{
+        let li=document.createElement("li");
+        li.textContent=s[0] + "(" + s[1] + ")";
+        list.appendChild(li);
+    });
+}
+</script>
+</body>
+</html>

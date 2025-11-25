@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>BEYOOOOONDS 画像付き楽曲ソート（見本）</title>
+  <title>BEYOOOOONDS楽曲ソート（画像テスト）</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -16,163 +16,302 @@
       margin: 0;
       padding: 0;
       width: 100%;
-      overflow-x: hidden;
+      height: 100%;
+    }
+    body {
       font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
       background: var(--bg);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
     }
     .app {
-      max-width: 640px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: 560px;
       padding: 16px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
     .card {
       background: #fff;
       border-radius: var(--card-radius);
       box-shadow: var(--shadow-soft);
-      padding: 20px 16px 24px;
+      padding: 20px 16px 22px;
     }
     h1 {
       text-align: center;
       font-size: 1.6rem;
-      margin: 0 0 10px;
+      margin: 4px 0 10px;
+      letter-spacing: 0.06em;
+      line-height: 1.3;
     }
     .sub {
       text-align: center;
-      font-size: .9rem;
-      color: #555;
-      margin: 0 0 14px;
-    }
-
-    .pair {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    @media (min-width: 640px) {
-      .pair { grid-template-columns: 1fr 1fr; }
-    }
-
-    .song-card {
-      background: #fafafa;
-      border-radius: 14px;
-      padding: 10px;
-      border: 1px solid #e0e0e0;
-      cursor: pointer;
-      transition: box-shadow .15s, transform .1s, border-color .15s;
-    }
-    .song-card:hover {
-      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
-      transform: translateY(-1px);
-      border-color: var(--accent);
-    }
-    .song-image-wrap {
-      width: 100%;
-      border-radius: 10px;
-      overflow: hidden;
-      aspect-ratio: 1 / 1;
-      background: #ddd;
-      margin-bottom: 8px;
-    }
-    .song-image-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .song-title {
-      font-size: .95rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-      line-height: 1.4;
-    }
-    .song-source {
-      font-size: .8rem;
-      color: #777;
-      line-height: 1.4;
-    }
-
-    .status {
-      text-align: center;
-      font-size: .85rem;
-      margin-top: 14px;
-      color: #555;
+      font-size: 0.9rem;
+      color: #444;
+      margin: 0 4px;
     }
     .progress-bar {
       width: 100%;
       height: 8px;
-      border-radius: 10px;
       background: #ddd;
+      border-radius: 10px;
+      margin: 12px 0 4px;
       overflow: hidden;
-      margin-top: 6px;
     }
     .progress-inner {
-      width: 40%;
-      height: 100%;
       background: var(--accent);
+      width: 0;
+      height: 100%;
       transition: width .25s;
+    }
+    .status {
+      text-align: center;
+      font-size: .85rem;
+      margin-top: 4px;
+    }
+
+    /* ★ 2択カード部分 ★ */
+    .pair-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    @media (max-width: 520px) {
+      .pair-container {
+        flex-direction: column;
+      }
+    }
+
+    .option {
+      flex: 1;
+      background:#fafafa;
+      border:1px solid #ddd;
+      border-radius:14px;
+      padding:10px;
+      cursor:pointer;
+      transition: background 0.15s, box-shadow 0.1s, transform 0.1s;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .option:hover {
+      background:#fdfdfd;
+      box-shadow:0 3px 12px rgba(0,0,0,0.06);
+      transform:translateY(-1px);
+    }
+
+    .song-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      background: #ddd;
+    }
+    .option-title {
+      font-weight:600;
+      font-size:0.95rem;
+      line-height:1.4;
+    }
+    .option-sub {
+      font-size:.8rem;
+      color:#777;
+      margin-top:2px;
+      line-height:1.3;
     }
 
     .buttons-row {
-      display: flex;
-      flex-wrap: wrap;
+      display:flex;
+      gap: 10px;
+      margin-top: 12px;
       justify-content: center;
-      gap: 8px;
-      margin-top: 16px;
     }
     .btn {
       border-radius: 999px;
-      border: 1px solid #b5b5b5;
+      padding: 10px 16px;
+      border: 1.5px solid #b4b4b4;
       background: #fff;
-      padding: 8px 14px;
-      font-size: .85rem;
+      font-size: 0.9rem;
       cursor: pointer;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.1s, border-color 0.1s;
+      font-weight: 500;
+      min-width: 110px;
     }
-    .btn-primary {
+    .btn.primary {
       border-color: var(--accent);
       color: var(--accent);
+    }
+    .btn:hover {
+      background: #f4f4f4;
+    }
+    .btn.primary:hover {
+      background: #e8f0ff;
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
     }
   </style>
 </head>
 <body>
 <div class="app">
-  <div class="card">
-    <h1>BEYOOOOONDS楽曲ソート（画像見本）</h1>
-    <p class="sub">実際のソートUIを画像付きで表示した時のイメージです。</p>
+  <div class="card" id="compareCard">
+    <h1>BEYOOOOONDS楽曲ソート（画像テスト）</h1>
+    <p class="sub">どちらがより好きかタップしてください。</p>
 
-    <div class="status">
-      30% 完了
-      <div class="progress-bar">
-        <div class="progress-inner"></div>
+    <div class="status" id="statusText">0% 完了</div>
+    <div class="progress-bar"><div class="progress-inner" id="progressInner"></div></div>
+
+    <div class="pair-container">
+      <div class="option" id="leftOption">
+        <img id="leftImg" class="song-img" src="" alt="" />
+        <div class="option-title" id="leftTitle"></div>
+        <div class="option-sub" id="leftAlbum"></div>
       </div>
-    </div>
-
-    <div class="pair">
-      <!-- 左の曲 -->
-      <div class="song-card">
-        <div class="song-image-wrap">
-          <!-- ここにジャケ写を入れる：下のURLをジャケ画像URLに変更 -->
-          <img src="https://via.placeholder.com/600x600?text=眼鏡の男の子" alt="眼鏡の男の子 ジャケット">
-        </div>
-        <div class="song-title">眼鏡の男の子</div>
-        <div class="song-source">1stシングル</div>
-      </div>
-
-      <!-- 右の曲 -->
-      <div class="song-card">
-        <div class="song-image-wrap">
-          <img src="https://via.placeholder.com/600x600?text=ビタミンME" alt="ビタミンME ジャケット">
-        </div>
-        <div class="song-title">ビタミンME</div>
-        <div class="song-source">2ndシングル</div>
+      <div class="option" id="rightOption">
+        <img id="rightImg" class="song-img" src="" alt="" />
+        <div class="option-title" id="rightTitle"></div>
+        <div class="option-sub" id="rightAlbum"></div>
       </div>
     </div>
 
     <div class="buttons-row">
-      <button class="btn btn-primary">引き分け</button>
-      <button class="btn">ひとつ戻る</button>
+      <button class="btn primary" id="tieBtn">引き分け</button>
+      <button class="btn" id="backBtn" disabled>ひとつ戻る</button>
     </div>
   </div>
 </div>
+
+<script>
+  /* ★ ここはテスト用のデータ ★
+     実際はあなたの曲リスト＋画像URLに置き換える */
+  const songs = [
+    {
+      id: "megane",
+      title: "眼鏡の男の子",
+      album: "1stシングル",
+      img: "https://via.placeholder.com/400x400?text=眼鏡"
+    },
+    {
+      id: "go-waist",
+      title: "Go Waist",
+      album: "1stシングル",
+      img: "https://via.placeholder.com/400x400?text=Go+Waist"
+    },
+    {
+      id: "dna",
+      title: "ニッポンノD・N・A！",
+      album: "1stシングル",
+      img: "https://via.placeholder.com/400x400?text=DNA"
+    }
+    // …ここに全曲分追加していく
+  ];
+
+  // ─────────────
+  // かなり雑なテスト用ソートロジック
+  // （ちゃんとしたやつは今の1019/index.htmlの二分探索ロジックを移植すればOK）
+  // ─────────────
+  let pool   = songs.slice().sort(() => Math.random() - 0.5);
+  let ranked = [pool[0]];
+  let idx    = 1;
+  let low=0, high=0, mid=0, candidate=null;
+  const statusText   = document.getElementById("statusText");
+  const progressInner= document.getElementById("progressInner");
+  const leftOption   = document.getElementById("leftOption");
+  const rightOption  = document.getElementById("rightOption");
+  const leftImg      = document.getElementById("leftImg");
+  const rightImg     = document.getElementById("rightImg");
+  const leftTitle    = document.getElementById("leftTitle");
+  const rightTitle   = document.getElementById("rightTitle");
+  const leftAlbum    = document.getElementById("leftAlbum");
+  const rightAlbum   = document.getElementById("rightAlbum");
+  const tieBtn       = document.getElementById("tieBtn");
+  const backBtn      = document.getElementById("backBtn");
+
+  const history = [];
+
+  function updateProgress() {
+    const percent = pool.length ? Math.floor((idx / pool.length) * 100) : 0;
+    statusText.textContent = `${percent}% 完了`;
+    progressInner.style.width = percent + "%";
+  }
+
+  function showPair(a, b) {
+    leftImg.src   = a.img;
+    leftImg.alt   = a.title;
+    leftTitle.textContent = a.title;
+    leftAlbum.textContent = a.album;
+
+    rightImg.src  = b.img;
+    rightImg.alt  = b.title;
+    rightTitle.textContent = b.title;
+    rightAlbum.textContent = b.album;
+  }
+
+  function nextStep() {
+    if (idx >= pool.length) {
+      statusText.textContent = "ソート完了！（テスト版）";
+      return;
+    }
+    candidate = pool[idx];
+    low = 0;
+    high = ranked.length;
+    ask();
+  }
+
+  function ask() {
+    if (low >= high) {
+      ranked.splice(low, 0, candidate);
+      idx++;
+      updateProgress();
+      nextStep();
+      return;
+    }
+    mid = Math.floor((low + high) / 2);
+    history.push({
+      idx, low, high, mid,
+      candidate,
+      ranked: ranked.slice()
+    });
+    backBtn.disabled = history.length === 0;
+    showPair(candidate, ranked[mid]);
+  }
+
+  leftOption.onclick = () => {
+    high = mid;
+    ask();
+  };
+  rightOption.onclick = () => {
+    low = mid + 1;
+    ask();
+  };
+  tieBtn.onclick = () => {
+    low = mid + 1;
+    high = mid + 1;
+    ask();
+  };
+  backBtn.onclick = () => {
+    if (!history.length) return;
+    const s = history.pop();
+    idx = s.idx;
+    low = s.low;
+    high = s.high;
+    mid = s.mid;
+    candidate = s.candidate;
+    ranked = s.ranked.slice();
+    updateProgress();
+    backBtn.disabled = history.length === 0;
+    showPair(candidate, ranked[mid]);
+  };
+
+  // 初期表示
+  updateProgress();
+  nextStep();
+</script>
 </body>
 </html>

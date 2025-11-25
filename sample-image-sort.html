@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>BEYOOOOONDS 画像付き楽曲ソート（見本）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --accent: #007aff;
+      --bg: #f4f4f8;
+      --card-radius: 18px;
+      --shadow-soft: 0 5px 20px rgba(0,0,0,0.05);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: var(--bg);
+    }
+    .app {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .card {
+      background: #fff;
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow-soft);
+      padding: 20px 16px 24px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.6rem;
+      margin: 0 0 10px;
+    }
+    .sub {
+      text-align: center;
+      font-size: .9rem;
+      color: #555;
+      margin: 0 0 14px;
+    }
+
+    .pair {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    @media (min-width: 640px) {
+      .pair { grid-template-columns: 1fr 1fr; }
+    }
+
+    .song-card {
+      background: #fafafa;
+      border-radius: 14px;
+      padding: 10px;
+      border: 1px solid #e0e0e0;
+      cursor: pointer;
+      transition: box-shadow .15s, transform .1s, border-color .15s;
+    }
+    .song-card:hover {
+      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+    .song-image-wrap {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      background: #ddd;
+      margin-bottom: 8px;
+    }
+    .song-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .song-title {
+      font-size: .95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+    .song-source {
+      font-size: .8rem;
+      color: #777;
+      line-height: 1.4;
+    }
+
+    .status {
+      text-align: center;
+      font-size: .85rem;
+      margin-top: 14px;
+      color: #555;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      border-radius: 10px;
+      background: #ddd;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-inner {
+      width: 40%;
+      height: 100%;
+      background: var(--accent);
+      transition: width .25s;
+    }
+
+    .buttons-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .btn {
+      border-radius: 999px;
+      border: 1px solid #b5b5b5;
+      background: #fff;
+      padding: 8px 14px;
+      font-size: .85rem;
+      cursor: pointer;
+    }
+    .btn-primary {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="card">
+    <h1>BEYOOOOONDS楽曲ソート（画像見本）</h1>
+    <p class="sub">実際のソートUIを画像付きで表示した時のイメージです。</p>
+
+    <div class="status">
+      30% 完了
+      <div class="progress-bar">
+        <div class="progress-inner"></div>
+      </div>
+    </div>
+
+    <div class="pair">
+      <!-- 左の曲 -->
+      <div class="song-card">
+        <div class="song-image-wrap">
+          <!-- ここにジャケ写を入れる：下のURLをジャケ画像URLに変更 -->
+          <img src="https://via.placeholder.com/600x600?text=眼鏡の男の子" alt="眼鏡の男の子 ジャケット">
+        </div>
+        <div class="song-title">眼鏡の男の子</div>
+        <div class="song-source">1stシングル</div>
+      </div>
+
+      <!-- 右の曲 -->
+      <div class="song-card">
+        <div class="song-image-wrap">
+          <img src="https://via.placeholder.com/600x600?text=ビタミンME" alt="ビタミンME ジャケット">
+        </div>
+        <div class="song-title">ビタミンME</div>
+        <div class="song-source">2ndシングル</div>
+      </div>
+    </div>
+
+    <div class="buttons-row">
+      <button class="btn btn-primary">引き分け</button>
+      <button class="btn">ひとつ戻る</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
